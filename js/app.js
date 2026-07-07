@@ -118,3 +118,74 @@ document.getElementById("refreshBtn").addEventListener("click", () => {
 });
 
 setPage("dashboard");
+
+
+function renderEntryForm() {
+  content.innerHTML = `
+    <section class="panel">
+      <div class="panel-header">
+        <h2>입장 등록</h2>
+        <p>팔찌 시간권 이용자를 등록합니다.</p>
+      </div>
+
+      <form class="entry-form" id="entryForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>팀 이름 *</label>
+            <input type="text" id="teamName" placeholder="예: 김하나팀" required />
+          </div>
+
+          <div class="form-group">
+            <label>휴대폰번호 *</label>
+            <input type="tel" id="phone" placeholder="01012345678" required />
+          </div>
+
+          <div class="form-group">
+            <label>인원수 *</label>
+            <input type="number" id="people" min="1" placeholder="예: 3" required />
+          </div>
+
+          <div class="form-group">
+            <label>팔찌번호 *</label>
+            <input type="text" id="braceletNo" placeholder="팔찌 스캔 또는 입력" required autofocus />
+          </div>
+
+          <div class="form-group">
+            <label>이용권 *</label>
+            <select id="ticketMinutes" required>
+              <option value="60">1시간권</option>
+              <option value="120">2시간권</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-btn">입장 등록</button>
+          <button type="reset" class="secondary-btn">초기화</button>
+        </div>
+      </form>
+    </section>
+  `;
+
+  const entryForm = document.getElementById("entryForm");
+
+  entryForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const data = {
+      teamName: document.getElementById("teamName").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      people: Number(document.getElementById("people").value),
+      braceletNo: document.getElementById("braceletNo").value.trim(),
+      ticketMinutes: Number(document.getElementById("ticketMinutes").value),
+    };
+
+    if (!data.teamName || !data.phone || !data.people || !data.braceletNo) {
+      alert("필수 항목을 모두 입력해주세요.");
+      return;
+    }
+
+    console.log("입장 등록 데이터:", data);
+    alert("입장 등록 화면 테스트 완료! 다음 단계에서 Firebase 저장을 연결합니다.");
+  });
+}
