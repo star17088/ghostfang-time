@@ -89,8 +89,10 @@ function renderPlaceholder(page) {
 }
 
 function setPage(page) {
-  pageTitle.textContent = pages[page].title;
-  pageDesc.textContent = pages[page].desc;
+  const pageData = pages[page];
+
+  pageTitle.textContent = pageData.title;
+  pageDesc.textContent = pageData.desc;
 
   menuButtons.forEach((btn) => {
     btn.classList.toggle("active", btn.dataset.page === page);
@@ -98,27 +100,12 @@ function setPage(page) {
 
   if (page === "dashboard") {
     renderDashboard();
+  } else if (page === "entry") {
+    renderEntryForm();
   } else {
     renderPlaceholder(page);
   }
 }
-
-menuButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    setPage(btn.dataset.page);
-  });
-});
-
-document.getElementById("quickEntryBtn").addEventListener("click", () => {
-  setPage("entry");
-});
-
-document.getElementById("refreshBtn").addEventListener("click", () => {
-  setPage("dashboard");
-});
-
-setPage("dashboard");
-
 
 function renderEntryForm() {
   content.innerHTML = `
@@ -189,3 +176,26 @@ function renderEntryForm() {
     alert("입장 등록 화면 테스트 완료! 다음 단계에서 Firebase 저장을 연결합니다.");
   });
 }
+
+menuButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    setPage(btn.dataset.page);
+  });
+});
+
+const quickEntryBtn = document.getElementById("quickEntryBtn");
+const refreshBtn = document.getElementById("refreshBtn");
+
+if (quickEntryBtn) {
+  quickEntryBtn.addEventListener("click", () => {
+    setPage("entry");
+  });
+}
+
+if (refreshBtn) {
+  refreshBtn.addEventListener("click", () => {
+    setPage("dashboard");
+  });
+}
+
+setPage("dashboard");
